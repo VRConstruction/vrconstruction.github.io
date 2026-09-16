@@ -143,7 +143,12 @@
 
 <div class="toolbar">
   <button onclick="addRow()">+ Add Item Row</button>
+  <button onclick="document.getElementById('csvFile').click()">Import CSV</button>
+  <input type="file" id="csvFile" accept=".csv" style="display:none" onchange="handleCSV(event)">
   <button onclick="window.print()">Print / Save as PDF</button>
+</div>
+<div class="toolbar" style="text-align:left; max-width:700px; margin:-8px auto 15px; font-family:Arial, sans-serif; font-size:11px; color:#555;">
+  CSV columns: Schedule No, Particular, Unit, Quantity (header row optional)
 </div>
 
 <div class="sheet" id="sheet">
@@ -267,6 +272,71 @@ Central Railway, Kalaburagi</textarea>
       <td class="unit"><input value=""></td>
       <td class="qty"><input value=""></td>`;
     tbody.appendChild(tr);
+  }
+
+  function parseCSVLine(line) {
+    const result = [];
+    let cur = '';
+    let inQuotes = false;
+    for (let i = 0; i < line.length; i++) {
+      const ch = line[i];
+      if (ch === '"') {
+        if (inQuotes && line[i + 1] === '"') { cur += '"'; i++; }
+        else { inQuotes = !inQuotes; }
+      } else if (ch === ',' && !inQuotes) {
+        result.push(cur.trim());
+        cur = '';
+      } else {
+        cur += ch;
+      }
+    }
+    result.push(cur.trim());
+    return result;
+  }
+
+  function handleCSV(event) {
+    const file = event.target.files[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = function (e) {
+      const text = e.target.result;
+      const lines = text.split(/\r?\n/).filter(l => l.trim() !== '');
+      if (lines.length === 0) return;
+
+      let rows = lines.map(parseCSVLine);
+
+      // Drop header row if it looks like one (non-numeric quantity column)
+      const firstRowQty = rows[0][3];
+      if (firstRowQty !== undefined && isNaN(parseFloat(firstRowQty))) {
+        rows = rows.slice(1);
+      }
+
+      const tbody = document.getElementById('itemsBody');
+      tbody.innerHTML = '';
+      rowCount = 0;
+      rows.forEach(cols => {
+        rowCount++;
+        const [sched = '', particular = '', unit = '', qty = ''] = cols;
+        const tr = document.createElement('tr');
+        tr.innerHTML = `<td class="sno">${rowCount}</td>
+          <td class="sched"><input value="${escapeHtml(sched)}"></td>
+          <td><input value="${escapeHtml(particular)}"></td>
+          <td class="unit"><input value="${escapeHtml(unit)}"></td>
+          <td class="qty"><input value="${escapeHtml(qty)}"></td>`;
+        tbody.appendChild(tr);
+      });
+
+      event.target.value = '';
+    };
+    reader.readAsText(file);
+  }
+
+  function escapeHtml(str) {
+    return String(str)
+      .replace(/&/g, '&amp;')
+      .replace(/"/g, '&quot;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;');
   }
 </script>
 
