@@ -7,59 +7,301 @@
   * { box-sizing: border-box; }
   
   body {
-    background: #e2e8f0;
+    background: #ffffff;
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
     margin: 0;
-    padding: 30px 0;
+    padding: 20px;
     color: #1e293b;
     -webkit-print-color-adjust: exact;
     print-color-adjust: exact;
   }
 
-  .toolbar {
-    max-width: 800px;
-    margin: 0 auto 15px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  }
-  .toolbar-info {
-    font-size: 12px;
-    color: #64748b;
-  }
-  .toolbar button {
-    font-size: 13px;
-    font-weight: 600;
-    padding: 8px 16px;
-    margin-left: 8px;
-    border: 1px solid #cbd5e1;
-    background: #ffffff;
-    color: #334155;
-    cursor: pointer;
-    border-radius: 6px;
-    transition: all 0.2s;
-    box-shadow: 0 1px 2px rgba(0,0,0,0.05);
-  }
-  .toolbar button:hover {
-    background: #f8fafc;
-    border-color: #94a3b8;
-  }
-
   .sheet {
     width: 210mm;
-    min-height: 297mm;
     margin: 0 auto;
     background: #ffffff;
-    padding: 12mm 15mm;
-    border: 1px solid #cbd5e1;
-    box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
+    padding: 10mm 12mm;
     font-size: 12px;
     line-height: 1.4;
-    position: relative;
   }
 
-  [contenteditable="true"]:hover {
-    outline: 1px dashed #3b82f6;
-    background-color: #eff6ff;
+  table {
+    border-collapse: collapse;
+    width: 100%;
+    margin-bottom: -1px;
   }
- 
+  
+  td, th {
+    border: 1px solid #334155;
+    padding: 6px 8px;
+    vertical-align: top;
+  }
+
+  /* Header Section */
+  .header-table td {
+    padding: 8px 10px;
+  }
+  .company-cell {
+    text-align: center;
+    vertical-align: middle;
+  }
+  .company-cell .document-title {
+    font-weight: 800;
+    letter-spacing: 2px;
+    font-size: 18px;
+    color: #0f172a;
+    text-transform: uppercase;
+    margin-bottom: 6px;
+  }
+  .company-name {
+    font-weight: 800;
+    font-size: 15px;
+    color: #0f172a;
+    margin-top: 4px;
+    text-transform: uppercase;
+  }
+  .company-sub {
+    font-weight: 600;
+    font-size: 11px;
+    color: #475569;
+    margin-top: 2px;
+  }
+  .company-contact {
+    font-size: 10px;
+    color: #64748b;
+    margin-top: 2px;
+  }
+
+  .meta-label {
+    font-size: 10px;
+    font-weight: 700;
+    color: #64748b;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 2px;
+  }
+  .meta-value {
+    font-size: 12px;
+    font-weight: 600;
+    color: #0f172a;
+    min-height: 16px;
+  }
+
+  /* Buyer Box */
+  .buyer-box {
+    border: 1px solid #334155;
+    border-top: none;
+    padding: 10px 12px;
+    background: #ffffff;
+  }
+  .buyer-box .section-label {
+    font-weight: 700;
+    font-size: 11px;
+    text-transform: uppercase;
+    color: #475569;
+    margin-bottom: 4px;
+    letter-spacing: 0.5px;
+  }
+  .buyer-line {
+    font-size: 12px;
+    color: #1e293b;
+    line-height: 1.4;
+  }
+  .work-desc {
+    margin-top: 8px;
+    padding-top: 6px;
+    border-top: 1px dashed #cbd5e1;
+  }
+  .work-desc .label {
+    font-weight: 700;
+    color: #0f172a;
+  }
+  .tender-no {
+    margin-top: 8px;
+    font-weight: 700;
+    color: #0f172a;
+  }
+
+  /* Items Table */
+  .items-table {
+    margin-top: 0;
+  }
+  .items-table th {
+    text-align: center;
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    background: #1e293b;
+    color: #ffffff;
+    padding: 8px;
+  }
+  .items-table tr:nth-child(even) {
+    background-color: #f8fafc;
+  }
+  .items-table td.sno { width: 35px; text-align: center; font-weight: 600; }
+  .items-table td.sched { width: 65px; text-align: center; }
+  .items-table td.unit { width: 60px; text-align: center; }
+  .items-table td.qty { width: 75px; text-align: center; font-weight: 600; }
+
+  /* Footer Section */
+  .footer-line {
+    margin-top: 12px;
+    border: 1px solid #334155;
+    padding: 8px 12px;
+    display: flex;
+    justify-content: space-between;
+    font-size: 12px;
+    background: #f8fafc;
+  }
+  .footer-line label {
+    font-weight: 700;
+    margin-right: 6px;
+    color: #334155;
+  }
+
+  /* Signatures */
+  .signatures {
+    margin-top: 40px;
+    display: flex;
+    justify-content: space-between;
+  }
+  .sig-block {
+    width: 45%;
+  }
+  .sig-block .sig-title {
+    font-weight: 700;
+    font-size: 12px;
+    margin-bottom: 50px;
+    display: block;
+    color: #0f172a;
+  }
+  .sig-block .sig-text {
+    border-top: 1px solid #334155;
+    padding-top: 6px;
+    text-align: center;
+    font-size: 11px;
+    color: #334155;
+    line-height: 1.3;
+  }
+  .right-sig { text-align: right; }
+  .right-sig .sig-text { text-align: center; }
+</style>
+</head>
+<body>
+
+<div class="sheet" id="sheet">
+
+  <!-- Header -->
+  <table class="header-table">
+    <tr>
+      <td rowspan="2" class="company-cell" style="width: 45%;">
+        <div class="document-title">SUPPLY CHALLAN</div>
+        <div class="company-name">V R CONSTRUCTION</div>
+        <div class="company-sub">Guntur, Andhra Pradesh</div>
+        <div class="company-contact">Email: contact@thevrconstruction.in | Ph: +91 7799134599</div>
+      </td>
+      <td style="width: 27.5%;">
+        <div class="meta-label">Challan No:</div>
+        <div class="meta-value">VRC/2526/232</div>
+      </td>
+      <td style="width: 27.5%;">
+        <div class="meta-label">Dated:</div>
+        <div class="meta-value">27/01/2026</div>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <div class="meta-label">Vehicle No:</div>
+        <div class="meta-value">MH13CT9184</div>
+      </td>
+      <td>
+        <div class="meta-label">Other Reference:</div>
+        <div class="meta-value"></div>
+      </td>
+    </tr>
+    <tr>
+      <td></td>
+      <td>
+        <div class="meta-label">Buyer's Order No:</div>
+        <div class="meta-value"></div>
+      </td>
+      <td>
+        <div class="meta-label">LOA Dated:</div>
+        <div class="meta-value"></div>
+      </td>
+    </tr>
+  </table>
+
+  <!-- Buyer Details Box -->
+  <div class="buyer-box">
+    <div class="section-label">Buyer Details</div>
+    <div class="buyer-line">Senior Section Engineer (E. M), KLBG</div>
+    <div class="buyer-line">Central Railway</div>
+    <div class="buyer-line">State Name: Karnataka</div>
+    <div class="buyer-line">Place of Supply: KLBG Store</div>
+
+    <div class="work-desc">
+      <span class="label">Name of work:- </span>
+      <span>Electrical general service portion of work in connection with the improvement of safety, reliable power supply, lightning, earthing arrangements and other ancillary works in the SUR-WD section over Solapur Division.</span>
+    </div>
+
+    <div class="tender-no">
+      Tender No:- <span>SUR-L-T-2025-24</span>
+    </div>
+  </div>
+
+  <!-- Items Table -->
+  <table class="items-table" id="itemsTable">
+    <thead>
+      <tr>
+        <th style="width:35px;">Sr.<br>No</th>
+        <th style="width:65px;">Schedule<br>No</th>
+        <th>Particular</th>
+        <th style="width:60px;">Unit</th>
+        <th style="width:75px;">Quantity</th>
+      </tr>
+    </thead>
+    <tbody id="itemsBody">
+      <tr><td class="sno">1</td><td class="sched">08</td><td>Exhaust fan (Sweep Size:-300mm) as per specification</td><td class="unit">Nos</td><td class="qty">20</td></tr>
+      <tr><td class="sno">2</td><td class="sched">17</td><td>Provision of 60W, LED flood lights as per specification</td><td class="unit">Nos</td><td class="qty">60</td></tr>
+      <tr><td class="sno">3</td><td class="sched">18</td><td>Provision of LED street light 30-33 W as per specification</td><td class="unit">Nos</td><td class="qty">40</td></tr>
+      <tr><td class="sno">4</td><td class="sched">19</td><td>Provision of 200W Non integral LED flood lights as per specification</td><td class="unit">Nos</td><td class="qty">10</td></tr>
+      <tr><td class="sno">5</td><td class="sched">20</td><td>LED panel light recess / surface mounted (2 feet X 2 feet) as per specification</td><td class="unit">Nos</td><td class="qty">40</td></tr>
+      <tr><td class="sno">6</td><td class="sched">23</td><td>Supply, Erection, Testing and commissioning of 36-40W LED tube light as per specification</td><td class="unit">Nos</td><td class="qty">160</td></tr>
+      <tr><td class="sno">7</td><td class="sched">25</td><td>SPS</td><td class="unit">KG</td><td class="qty">561</td></tr>
+      <tr><td class="sno">8</td><td class="sched"></td><td></td><td class="unit"></td><td class="qty"></td></tr>
+      <tr><td class="sno">9</td><td class="sched"></td><td></td><td class="unit"></td><td class="qty"></td></tr>
+      <tr><td class="sno">10</td><td class="sched"></td><td></td><td class="unit"></td><td class="qty"></td></tr>
+    </tbody>
+  </table>
+
+  <!-- PAN / GST Footer Line -->
+  <div class="footer-line">
+    <div><label>Company's PAN:</label><span>AAZFV2421M</span></div>
+    <div><label>Company's GSTIN / UIN:</label><span>37AAZFV2421M1ZF</span></div>
+  </div>
+
+  <!-- Signatures -->
+  <div class="signatures">
+    <div class="sig-block">
+      <div class="sig-title">Customer's Seal and Signature</div>
+      <div class="sig-text">
+        Senior Section Engineer Vidhyut<br>
+        Madhya Rail, Kalaburagi<br>
+        Senior Section Engineer Elect. (M)<br>
+        Central Railway, Kalaburagi
+      </div>
+    </div>
+    <div class="sig-block right-sig">
+      <div class="sig-title">For V R CONSTRUCTION</div>
+      <div class="sig-text">
+        <br><br>
+        Authorised Signatory
+      </div>
+    </div>
+  </div>
+
+</div>
+
+</body>
+</html>
