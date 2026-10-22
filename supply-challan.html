@@ -7,22 +7,64 @@
   * { box-sizing: border-box; }
   
   body {
-    background: #ffffff;
+    background: #e2e8f0;
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
     margin: 0;
-    padding: 20px;
+    padding: 30px 0;
     color: #1e293b;
     -webkit-print-color-adjust: exact;
     print-color-adjust: exact;
   }
 
+  .toolbar {
+    max-width: 800px;
+    margin: 0 auto 15px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .toolbar-info {
+    font-size: 12px;
+    color: #64748b;
+  }
+  .toolbar button {
+    font-size: 13px;
+    font-weight: 600;
+    padding: 8px 16px;
+    margin-left: 8px;
+    border: 1px solid #cbd5e1;
+    background: #ffffff;
+    color: #334155;
+    cursor: pointer;
+    border-radius: 6px;
+    transition: all 0.2s;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+  }
+  .toolbar button:hover {
+    background: #f8fafc;
+    border-color: #94a3b8;
+  }
+
   .sheet {
     width: 210mm;
+    min-height: 297mm;
     margin: 0 auto;
     background: #ffffff;
-    padding: 10mm 12mm;
+    padding: 12mm 15mm;
+    border: 1px solid #cbd5e1;
+    box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
     font-size: 12px;
     line-height: 1.4;
+    position: relative;
+  }
+
+  [contenteditable="true"]:hover {
+    outline: 1px dashed #3b82f6;
+    background-color: #eff6ff;
+  }
+  [contenteditable="true"]:focus {
+    outline: 1px solid #2563eb;
+    background-color: #ffffff;
   }
 
   table {
@@ -52,6 +94,19 @@
     color: #0f172a;
     text-transform: uppercase;
     margin-bottom: 6px;
+  }
+  .logo-box {
+    width: 70px;
+    height: 70px;
+    margin: 4px auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .logo-box img {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
   }
   .company-name {
     font-weight: 800;
@@ -164,6 +219,7 @@
     margin-top: 40px;
     display: flex;
     justify-content: space-between;
+    page-break-inside: avoid;
   }
   .sig-block {
     width: 45%;
@@ -185,9 +241,41 @@
   }
   .right-sig { text-align: right; }
   .right-sig .sig-text { text-align: center; }
+
+  /* Print Media Overrides */
+  @media print {
+    @page {
+      size: A4 portrait;
+      margin: 0;
+    }
+    body {
+      background: #ffffff;
+      padding: 0;
+    }
+    .toolbar { display: none; }
+    .sheet {
+      box-shadow: none;
+      border: none;
+      width: 100%;
+      min-height: auto;
+      padding: 10mm 12mm;
+    }
+  }
 </style>
 </head>
 <body>
+
+<div class="toolbar">
+  <div class="toolbar-info">
+    Click any text directly on the sheet to edit content.
+  </div>
+  <div>
+    <button onclick="addRow()">+ Add Row</button>
+    <button onclick="document.getElementById('csvFile').click()">Import CSV</button>
+    <input type="file" id="csvFile" accept=".csv" style="display:none" onchange="handleCSV(event)">
+    <button onclick="window.print()">Print / Export PDF</button>
+  </div>
+</div>
 
 <div class="sheet" id="sheet">
 
@@ -195,39 +283,42 @@
   <table class="header-table">
     <tr>
       <td rowspan="2" class="company-cell" style="width: 45%;">
-        <div class="document-title">SUPPLY CHALLAN</div>
-        <div class="company-name">V R CONSTRUCTION</div>
-        <div class="company-sub">Guntur, Andhra Pradesh</div>
-        <div class="company-contact">Email: contact@thevrconstruction.in | Ph: +91 7799134599</div>
+        <div class="document-title" contenteditable="true">SUPPLY CHALLAN</div>
+        <div class="logo-box">
+          <img src="logo.png" alt="V R Construction logo">
+        </div>
+        <div class="company-name" contenteditable="true">V R CONSTRUCTION</div>
+        <div class="company-sub" contenteditable="true">Guntur, Andhra Pradesh</div>
+        <div class="company-contact" contenteditable="true">Email: contact@thevrconstruction.in | Ph: +91 7799134599</div>
       </td>
       <td style="width: 27.5%;">
         <div class="meta-label">Challan No:</div>
-        <div class="meta-value">VRC/2526/232</div>
+        <div class="meta-value" contenteditable="true">VRC/2526/232</div>
       </td>
       <td style="width: 27.5%;">
         <div class="meta-label">Dated:</div>
-        <div class="meta-value">27/01/2026</div>
+        <div class="meta-value" contenteditable="true">27/01/2026</div>
       </td>
     </tr>
     <tr>
       <td>
         <div class="meta-label">Vehicle No:</div>
-        <div class="meta-value">MH13CT9184</div>
+        <div class="meta-value" contenteditable="true">MH13CT9184</div>
       </td>
       <td>
         <div class="meta-label">Other Reference:</div>
-        <div class="meta-value"></div>
+        <div class="meta-value" contenteditable="true"></div>
       </td>
     </tr>
     <tr>
       <td></td>
       <td>
         <div class="meta-label">Buyer's Order No:</div>
-        <div class="meta-value"></div>
+        <div class="meta-value" contenteditable="true"></div>
       </td>
       <td>
         <div class="meta-label">LOA Dated:</div>
-        <div class="meta-value"></div>
+        <div class="meta-value" contenteditable="true"></div>
       </td>
     </tr>
   </table>
@@ -235,18 +326,18 @@
   <!-- Buyer Details Box -->
   <div class="buyer-box">
     <div class="section-label">Buyer Details</div>
-    <div class="buyer-line">Senior Section Engineer (E. M), KLBG</div>
-    <div class="buyer-line">Central Railway</div>
-    <div class="buyer-line">State Name: Karnataka</div>
-    <div class="buyer-line">Place of Supply: KLBG Store</div>
+    <div class="buyer-line" contenteditable="true">Senior Section Engineer (E. M), KLBG</div>
+    <div class="buyer-line" contenteditable="true">Central Railway</div>
+    <div class="buyer-line" contenteditable="true">State Name: Karnataka</div>
+    <div class="buyer-line" contenteditable="true">Place of Supply: KLBG Store</div>
 
     <div class="work-desc">
       <span class="label">Name of work:- </span>
-      <span>Electrical general service portion of work in connection with the improvement of safety, reliable power supply, lightning, earthing arrangements and other ancillary works in the SUR-WD section over Solapur Division.</span>
+      <span contenteditable="true">Electrical general service portion of work in connection with the improvement of safety, reliable power supply, lightning, earthing arrangements and other ancillary works in the SUR-WD section over Solapur Division.</span>
     </div>
 
     <div class="tender-no">
-      Tender No:- <span>SUR-L-T-2025-24</span>
+      Tender No:- <span contenteditable="true">SUR-L-T-2025-24</span>
     </div>
   </div>
 
@@ -262,30 +353,30 @@
       </tr>
     </thead>
     <tbody id="itemsBody">
-      <tr><td class="sno">1</td><td class="sched">08</td><td>Exhaust fan (Sweep Size:-300mm) as per specification</td><td class="unit">Nos</td><td class="qty">20</td></tr>
-      <tr><td class="sno">2</td><td class="sched">17</td><td>Provision of 60W, LED flood lights as per specification</td><td class="unit">Nos</td><td class="qty">60</td></tr>
-      <tr><td class="sno">3</td><td class="sched">18</td><td>Provision of LED street light 30-33 W as per specification</td><td class="unit">Nos</td><td class="qty">40</td></tr>
-      <tr><td class="sno">4</td><td class="sched">19</td><td>Provision of 200W Non integral LED flood lights as per specification</td><td class="unit">Nos</td><td class="qty">10</td></tr>
-      <tr><td class="sno">5</td><td class="sched">20</td><td>LED panel light recess / surface mounted (2 feet X 2 feet) as per specification</td><td class="unit">Nos</td><td class="qty">40</td></tr>
-      <tr><td class="sno">6</td><td class="sched">23</td><td>Supply, Erection, Testing and commissioning of 36-40W LED tube light as per specification</td><td class="unit">Nos</td><td class="qty">160</td></tr>
-      <tr><td class="sno">7</td><td class="sched">25</td><td>SPS</td><td class="unit">KG</td><td class="qty">561</td></tr>
-      <tr><td class="sno">8</td><td class="sched"></td><td></td><td class="unit"></td><td class="qty"></td></tr>
-      <tr><td class="sno">9</td><td class="sched"></td><td></td><td class="unit"></td><td class="qty"></td></tr>
-      <tr><td class="sno">10</td><td class="sched"></td><td></td><td class="unit"></td><td class="qty"></td></tr>
+      <tr><td class="sno">1</td><td class="sched" contenteditable="true">08</td><td contenteditable="true">Exhaust fan (Sweep Size:-300mm) as per specification</td><td class="unit" contenteditable="true">Nos</td><td class="qty" contenteditable="true">20</td></tr>
+      <tr><td class="sno">2</td><td class="sched" contenteditable="true">17</td><td contenteditable="true">Provision of 60W, LED flood lights as per specification</td><td class="unit" contenteditable="true">Nos</td><td class="qty" contenteditable="true">60</td></tr>
+      <tr><td class="sno">3</td><td class="sched" contenteditable="true">18</td><td contenteditable="true">Provision of LED street light 30-33 W as per specification</td><td class="unit" contenteditable="true">Nos</td><td class="qty" contenteditable="true">40</td></tr>
+      <tr><td class="sno">4</td><td class="sched" contenteditable="true">19</td><td contenteditable="true">Provision of 200W Non integral LED flood lights as per specification</td><td class="unit" contenteditable="true">Nos</td><td class="qty" contenteditable="true">10</td></tr>
+      <tr><td class="sno">5</td><td class="sched" contenteditable="true">20</td><td contenteditable="true">LED panel light recess / surface mounted (2 feet X 2 feet) as per specification</td><td class="unit" contenteditable="true">Nos</td><td class="qty" contenteditable="true">40</td></tr>
+      <tr><td class="sno">6</td><td class="sched" contenteditable="true">23</td><td contenteditable="true">Supply, Erection, Testing and commissioning of 36-40W LED tube light as per specification</td><td class="unit" contenteditable="true">Nos</td><td class="qty" contenteditable="true">160</td></tr>
+      <tr><td class="sno">7</td><td class="sched" contenteditable="true">25</td><td contenteditable="true">SPS</td><td class="unit" contenteditable="true">KG</td><td class="qty" contenteditable="true">561</td></tr>
+      <tr><td class="sno">8</td><td class="sched" contenteditable="true"></td><td contenteditable="true"></td><td class="unit" contenteditable="true"></td><td class="qty" contenteditable="true"></td></tr>
+      <tr><td class="sno">9</td><td class="sched" contenteditable="true"></td><td contenteditable="true"></td><td class="unit" contenteditable="true"></td><td class="qty" contenteditable="true"></td></tr>
+      <tr><td class="sno">10</td><td class="sched" contenteditable="true"></td><td contenteditable="true"></td><td class="unit" contenteditable="true"></td><td class="qty" contenteditable="true"></td></tr>
     </tbody>
   </table>
 
   <!-- PAN / GST Footer Line -->
   <div class="footer-line">
-    <div><label>Company's PAN:</label><span>AAZFV2421M</span></div>
-    <div><label>Company's GSTIN / UIN:</label><span>37AAZFV2421M1ZF</span></div>
+    <div><label>Company's PAN:</label><span contenteditable="true">AAZFV2421M</span></div>
+    <div><label>Company's GSTIN / UIN:</label><span contenteditable="true">37AAZFV2421M1ZF</span></div>
   </div>
 
   <!-- Signatures -->
   <div class="signatures">
     <div class="sig-block">
-      <div class="sig-title">Customer's Seal and Signature</div>
-      <div class="sig-text">
+      <div class="sig-title" contenteditable="true">Customer's Seal and Signature</div>
+      <div class="sig-text" contenteditable="true">
         Senior Section Engineer Vidhyut<br>
         Madhya Rail, Kalaburagi<br>
         Senior Section Engineer Elect. (M)<br>
@@ -293,8 +384,8 @@
       </div>
     </div>
     <div class="sig-block right-sig">
-      <div class="sig-title">For V R CONSTRUCTION</div>
-      <div class="sig-text">
+      <div class="sig-title" contenteditable="true">For V R CONSTRUCTION</div>
+      <div class="sig-text" contenteditable="true">
         <br><br>
         Authorised Signatory
       </div>
@@ -302,6 +393,90 @@
   </div>
 
 </div>
+
+<script>
+  let rowCount = document.querySelectorAll('#itemsBody tr').length;
+
+  function addRow() {
+    rowCount++;
+    const tbody = document.getElementById('itemsBody');
+    const tr = document.createElement('tr');
+    tr.innerHTML = `
+      <td class="sno">${rowCount}</td>
+      <td class="sched" contenteditable="true"></td>
+      <td contenteditable="true"></td>
+      <td class="unit" contenteditable="true"></td>
+      <td class="qty" contenteditable="true"></td>
+    `;
+    tbody.appendChild(tr);
+  }
+
+  function parseCSVLine(line) {
+    const result = [];
+    let cur = '';
+    let inQuotes = false;
+    for (let i = 0; i < line.length; i++) {
+      const ch = line[i];
+      if (ch === '"') {
+        if (inQuotes && line[i + 1] === '"') { cur += '"'; i++; }
+        else { inQuotes = !inQuotes; }
+      } else if (ch === ',' && !inQuotes) {
+        result.push(cur.trim());
+        cur = '';
+      } else {
+        cur += ch;
+      }
+    }
+    result.push(cur.trim());
+    return result;
+  }
+
+  function handleCSV(event) {
+    const file = event.target.files[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = function (e) {
+      const text = e.target.result;
+      const lines = text.split(/\r?\n/).filter(l => l.trim() !== '');
+      if (lines.length === 0) return;
+
+      let rows = lines.map(parseCSVLine);
+      const firstRowQty = rows[0][3];
+      if (firstRowQty !== undefined && isNaN(parseFloat(firstRowQty))) {
+        rows = rows.slice(1);
+      }
+
+      const tbody = document.getElementById('itemsBody');
+      tbody.innerHTML = '';
+      rowCount = 0;
+
+      rows.forEach(cols => {
+        rowCount++;
+        const [sched = '', particular = '', unit = '', qty = ''] = cols;
+        const tr = document.createElement('tr');
+        tr.innerHTML = `
+          <td class="sno">${rowCount}</td>
+          <td class="sched" contenteditable="true">${escapeHtml(sched)}</td>
+          <td contenteditable="true">${escapeHtml(particular)}</td>
+          <td class="unit" contenteditable="true">${escapeHtml(unit)}</td>
+          <td class="qty" contenteditable="true">${escapeHtml(qty)}</td>
+        `;
+        tbody.appendChild(tr);
+      });
+
+      event.target.value = '';
+    };
+    reader.readAsText(file);
+  }
+
+  function escapeHtml(str) {
+    return String(str)
+      .replace(/&/g, '&amp;')
+      .replace(/"/g, '&quot;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;');
+  }
+</script>
 
 </body>
 </html>
